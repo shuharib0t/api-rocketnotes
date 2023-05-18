@@ -69,3 +69,6 @@ create TagsController.js in /src/controllers folder
 create tags.routes.js in /src/routes folder
 
 update index.js in /src/routes folder(import tagsRouter)
+
+
+/*--------- JWT ---------*/
