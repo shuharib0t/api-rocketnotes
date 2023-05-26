@@ -1,23 +1,26 @@
-require('express-async-errors');
-const migrationsRun = require('./database/sqlite/migrations');
-const AppError = require('./utils/AppError');
-const express = require('express');
-const routes = require('./routes');
-const uploadConfig = require('./configs/upload');
+require("express-async-errors");
+const express = require("express");
+const cors = require("cors");
+
+const routes = require("./routes");
+const migrationsRun = require("./database/sqlite/migrations");
+const AppError = require("./utils/AppError");
+const uploadConfig = require("./configs/upload");
 
 migrationsRun();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
-app.use('/files', express.static(uploadConfig.UPLOADS_FOLDER));
+app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER));
 
 app.use(routes);
 
 app.use((error, request, response, next) => {
   if (error instanceof AppError) {
     return response.status(error.statusCode).json({
-      status: 'error',
+      status: "error",
       message: error.message,
     });
   }
@@ -25,8 +28,8 @@ app.use((error, request, response, next) => {
   console.error(error);
 
   return response.status(500).json({
-    status: 'error',
-    message: 'Internal Server Error',
+    status: "error",
+    message: "Internal Server Error",
   });
 });
 
