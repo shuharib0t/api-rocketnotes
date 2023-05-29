@@ -34,7 +34,6 @@ class NotesController {
   }
 
   async show(request, response) {
-    console.log(request);
     const { id } = request.params;
 
     const note = await knex("notes").where({ id }).first();
